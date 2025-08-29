@@ -1,0 +1,47 @@
+{
+  "name": "@soffinal/http-server",
+  "version": "0.1.0",
+  "description": "A reactive HTTP server built on Bun that emits events as a stream for HTTP requests, WebSocket connections, and errors",
+  "author": "Soffinal <smari.sofiane@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/soffinal/http-server.git"
+  },
+  "keywords": [
+    "reactive",
+    "http",
+    "server",
+    "websocket",
+    "stream",
+    "bun",
+    "typescript"
+  ],
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "type": "module",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "typescript": "^5"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@soffinal/stream": "^0.2.1"
+  }
+}
