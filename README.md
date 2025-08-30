@@ -235,14 +235,21 @@ wsEvents.listen((event) => {
 });
 
 // API routes handler (can be in api-routes.ts)
-server.listen((event) => {
-  if (event.type === "http-request" && event.request.url.includes("/api/")) {
-    const url = new URL(event.request.url);
-    if (url.pathname === "/api/users") {
-      event.respond(new Response(JSON.stringify({ users: [] })));
-    }
-  }
-});
+const api = server.pipe(
+  (stream) =>
+    new Stream<HttpEvent>(async function* () {
+      for await (const event of stream) {
+        if (event.type === "http-request" && event.request.url.includes("/api/")) yield event;
+      }
+    })
+);
+
+// OR Using filter from @soffinal/stream library (simpleFilter is provided by jsdoc)
+const api = server.pipe(simpleFilter((event) => event.type === "http-request" && event.request.url.includes("/api/")));
+
+const users = api.pipe(simpleFilter((event) => new URL(event.request.url).pathname === "/api/users"));
+
+users.listen(() => event.respond(new Response(JSON.stringify({ users: [] }))));
 
 // Static files handler (can be in static-handler.ts)
 server.listen((event) => {
