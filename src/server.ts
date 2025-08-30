@@ -56,82 +56,107 @@ export type ErrorEvent<T = unknown, R extends { [K in keyof R]: Bun.RouterTypes.
   /** Server options with encode/decode functions */
   options: Omit<Options<T, R>, "encode" | "decode"> & { encode: Function; decode: Function };
 };
+
+export type WebSocketOpenEvent<
+  T = unknown,
+  R extends { [K in keyof R]: Bun.RouterTypes.RouteValue<K & string> } = {}
+> = {
+  /** WebSocket connection opened */
+  type: "ws-open";
+  /** The WebSocket connection */
+  ws: Bun.ServerWebSocket<T>;
+  /** The Bun server instance */
+  server: Bun.Server;
+  /** Server options with encode/decode functions */
+  options: Omit<Options<T, R>, "encode" | "decode"> & { encode: Function; decode: Function };
+};
+export type WebSocketMessageEvent<
+  T = unknown,
+  R extends { [K in keyof R]: Bun.RouterTypes.RouteValue<K & string> } = {}
+> = {
+  /** WebSocket message received */
+  type: "ws-message";
+  /** The WebSocket connection */
+  ws: Bun.ServerWebSocket<T>;
+  /** The Bun server instance */
+  server: Bun.Server;
+  /** The received message */
+  message: string | Buffer<ArrayBufferLike>;
+  /** Server options with encode/decode functions */
+  options: Omit<Options<T, R>, "encode" | "decode"> & { encode: Function; decode: Function };
+};
+export type WebSocketCloseEvent<
+  T = unknown,
+  R extends { [K in keyof R]: Bun.RouterTypes.RouteValue<K & string> } = {}
+> = {
+  /** WebSocket connection closed */
+  type: "ws-close";
+  /** The WebSocket connection */
+  ws: Bun.ServerWebSocket<T>;
+  /** The Bun server instance */
+  server: Bun.Server;
+  /** Close status code */
+  code: number;
+  /** Close reason */
+  reason: string;
+  /** Server options with encode/decode functions */
+  options: Omit<Options<T, R>, "encode" | "decode"> & { encode: Function; decode: Function };
+};
+export type WebSocketDrainEvent<
+  T = unknown,
+  R extends { [K in keyof R]: Bun.RouterTypes.RouteValue<K & string> } = {}
+> = {
+  /** WebSocket ready to send more data */
+  type: "ws-drain";
+  /** The WebSocket connection */
+  ws: Bun.ServerWebSocket<T>;
+  /** The Bun server instance */
+  server: Bun.Server;
+  /** Server options with encode/decode functions */
+  options: Omit<Options<T, R>, "encode" | "decode"> & { encode: Function; decode: Function };
+};
+export type WebSocketPingEvent<
+  T = unknown,
+  R extends { [K in keyof R]: Bun.RouterTypes.RouteValue<K & string> } = {}
+> = {
+  /** WebSocket ping received */
+  type: "ws-ping";
+  /** The WebSocket connection */
+  ws: Bun.ServerWebSocket<T>;
+  /** The Bun server instance */
+  server: Bun.Server;
+  /** Ping data */
+  data: Buffer<ArrayBufferLike>;
+  /** Server options with encode/decode functions */
+  options: Omit<Options<T, R>, "encode" | "decode"> & { encode: Function; decode: Function };
+};
+export type WebSocketPongEvent<
+  T = unknown,
+  R extends { [K in keyof R]: Bun.RouterTypes.RouteValue<K & string> } = {}
+> = {
+  /** WebSocket pong received */
+  type: "ws-pong";
+  /** The WebSocket connection */
+  ws: Bun.ServerWebSocket<T>;
+  /** The Bun server instance */
+  server: Bun.Server;
+  /** Pong data */
+  data: Buffer<ArrayBufferLike>;
+  /** Server options with encode/decode functions */
+  options: Omit<Options<T, R>, "encode" | "decode"> & { encode: Function; decode: Function };
+};
 /**
  * WebSocket events union type
  * @template T - WebSocket data type
  * @template R - Router types
  */
-export type WebsocketEvent<T = unknown, R extends { [K in keyof R]: Bun.RouterTypes.RouteValue<K & string> } = {}> =
-  | {
-      /** WebSocket connection opened */
-      type: "ws-open";
-      /** The WebSocket connection */
-      ws: Bun.ServerWebSocket<T>;
-      /** The Bun server instance */
-      server: Bun.Server;
-      /** Server options with encode/decode functions */
-      options: Omit<Options<T, R>, "encode" | "decode"> & { encode: Function; decode: Function };
-    }
-  | {
-      /** WebSocket message received */
-      type: "ws-message";
-      /** The WebSocket connection */
-      ws: Bun.ServerWebSocket<T>;
-      /** The Bun server instance */
-      server: Bun.Server;
-      /** The received message */
-      message: string | Buffer<ArrayBufferLike>;
-      /** Server options with encode/decode functions */
-      options: Omit<Options<T, R>, "encode" | "decode"> & { encode: Function; decode: Function };
-    }
-  | {
-      /** WebSocket connection closed */
-      type: "ws-close";
-      /** The WebSocket connection */
-      ws: Bun.ServerWebSocket<T>;
-      /** The Bun server instance */
-      server: Bun.Server;
-      /** Close status code */
-      code: number;
-      /** Close reason */
-      reason: string;
-      /** Server options with encode/decode functions */
-      options: Omit<Options<T, R>, "encode" | "decode"> & { encode: Function; decode: Function };
-    }
-  | {
-      /** WebSocket ready to send more data */
-      type: "ws-drain";
-      /** The WebSocket connection */
-      ws: Bun.ServerWebSocket<T>;
-      /** The Bun server instance */
-      server: Bun.Server;
-      /** Server options with encode/decode functions */
-      options: Omit<Options<T, R>, "encode" | "decode"> & { encode: Function; decode: Function };
-    }
-  | {
-      /** WebSocket ping received */
-      type: "ws-ping";
-      /** The WebSocket connection */
-      ws: Bun.ServerWebSocket<T>;
-      /** The Bun server instance */
-      server: Bun.Server;
-      /** Ping data */
-      data: Buffer<ArrayBufferLike>;
-      /** Server options with encode/decode functions */
-      options: Omit<Options<T, R>, "encode" | "decode"> & { encode: Function; decode: Function };
-    }
-  | {
-      /** WebSocket pong received */
-      type: "ws-pong";
-      /** The WebSocket connection */
-      ws: Bun.ServerWebSocket<T>;
-      /** The Bun server instance */
-      server: Bun.Server;
-      /** Pong data */
-      data: Buffer<ArrayBufferLike>;
-      /** Server options with encode/decode functions */
-      options: Omit<Options<T, R>, "encode" | "decode"> & { encode: Function; decode: Function };
-    };
+export type WebSocketEvent<T = unknown, R extends { [K in keyof R]: Bun.RouterTypes.RouteValue<K & string> } = {}> =
+  | WebSocketOpenEvent<T, R>
+  | WebSocketMessageEvent<T, R>
+  | WebSocketCloseEvent<T, R>
+  | WebSocketDrainEvent<T, R>
+  | WebSocketPingEvent<T, R>
+  | WebSocketPongEvent<T, R>;
 /**
  * Union of all possible server events
  * @template T - WebSocket data type
@@ -139,7 +164,7 @@ export type WebsocketEvent<T = unknown, R extends { [K in keyof R]: Bun.RouterTy
  */
 export type Event<T = unknown, R extends { [K in keyof R]: Bun.RouterTypes.RouteValue<K & string> } = {}> =
   | HttpEvent<T, R>
-  | WebsocketEvent<T, R>
+  | WebSocketEvent<T, R>
   | ErrorEvent<T, R>;
 
 /**
