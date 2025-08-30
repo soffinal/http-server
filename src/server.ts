@@ -12,10 +12,10 @@ type DistributedOmit<T, K extends PropertyKey> = T extends T ? Omit<T, K> : neve
  * @template T - WebSocket data type
  * @template R - Router types
  */
-export type Options<T, R extends { [K in keyof R]: Bun.RouterTypes.RouteValue<K & string> }> = DistributedOmit<
-  Bun.ServeFunctionOptions<T, R>,
-  "fetch" | "websocket" | "unix"
-> & {
+export type Options<
+  T = unknown,
+  R extends { [K in keyof R]: Bun.RouterTypes.RouteValue<K & string> } = {}
+> = DistributedOmit<Bun.ServeFunctionOptions<T, R>, "fetch" | "websocket" | "unix"> & {
   /** Function to encode data (defaults to JSON.stringify) */
   encode?: Function;
   /** Function to decode data (defaults to JSON.parse) */
@@ -29,7 +29,7 @@ export type Options<T, R extends { [K in keyof R]: Bun.RouterTypes.RouteValue<K 
  * @template T - WebSocket data type
  * @template R - Router types
  */
-export type HttpEvent<T, R extends { [K in keyof R]: Bun.RouterTypes.RouteValue<K & string> }> = {
+export type HttpEvent<T = unknown, R extends { [K in keyof R]: Bun.RouterTypes.RouteValue<K & string> } = {}> = {
   /** Event type identifier */
   type: "http-request";
   /** The incoming HTTP request */
@@ -46,7 +46,7 @@ export type HttpEvent<T, R extends { [K in keyof R]: Bun.RouterTypes.RouteValue<
  * @template T - WebSocket data type
  * @template R - Router types
  */
-export type ErrorEvent<T, R extends { [K in keyof R]: Bun.RouterTypes.RouteValue<K & string> }> = {
+export type ErrorEvent<T = unknown, R extends { [K in keyof R]: Bun.RouterTypes.RouteValue<K & string> } = {}> = {
   /** Event type identifier */
   type: "error";
   /** The error that occurred */
@@ -61,7 +61,7 @@ export type ErrorEvent<T, R extends { [K in keyof R]: Bun.RouterTypes.RouteValue
  * @template T - WebSocket data type
  * @template R - Router types
  */
-export type WebsocketEvent<T, R extends { [K in keyof R]: Bun.RouterTypes.RouteValue<K & string> }> =
+export type WebsocketEvent<T = unknown, R extends { [K in keyof R]: Bun.RouterTypes.RouteValue<K & string> } = {}> =
   | {
       /** WebSocket connection opened */
       type: "ws-open";
@@ -137,7 +137,7 @@ export type WebsocketEvent<T, R extends { [K in keyof R]: Bun.RouterTypes.RouteV
  * @template T - WebSocket data type
  * @template R - Router types
  */
-export type Event<T, R extends { [K in keyof R]: Bun.RouterTypes.RouteValue<K & string> }> =
+export type Event<T = unknown, R extends { [K in keyof R]: Bun.RouterTypes.RouteValue<K & string> } = {}> =
   | HttpEvent<T, R>
   | WebsocketEvent<T, R>
   | ErrorEvent<T, R>;
@@ -147,9 +147,10 @@ export type Event<T, R extends { [K in keyof R]: Bun.RouterTypes.RouteValue<K & 
  * @template T - WebSocket data type
  * @template R - Router types
  */
-export class Server<T, R extends { [K in keyof R]: Bun.RouterTypes.RouteValue<K & string> }> extends Stream<
-  Event<T, R>
-> {
+export class Server<
+  T = unknown,
+  R extends { [K in keyof R]: Bun.RouterTypes.RouteValue<K & string> } = {}
+> extends Stream<Event<T, R>> {
   protected options?: Options<T, R>;
   protected _server?: Bun.Server;
 
