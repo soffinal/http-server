@@ -1,6 +1,6 @@
 {
   "name": "@soffinal/http-server",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "A reactive HTTP server built on Bun that emits events as a stream for HTTP requests, WebSocket connections, and errors",
   "author": "Soffinal <smari.sofiane@gmail.com>",
   "license": "MIT",
